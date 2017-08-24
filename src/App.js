@@ -17,18 +17,28 @@ class App extends Component {
     super(props);
 
     this.state = {
-      title: 'AdWords Budget Planner'
+      title: 'AdWords Budget Planner',
+      monthlyBudget: 0,
+      currentSpend: 0
     }
   }
 
   render() {
-    const {title} = this.state;
+    const {
+      title, 
+      monthlyBudget, 
+      currentSpend
+    } = this.state;
+
     return (
       <div className="App">
         <div className="App-header">
           <h2>{title}</h2>
         </div>
-        <Budget />
+        <Budget 
+          budget={monthlyBudget}
+          spend={currentSpend}
+        />
         <Campaigns />
         <Suggestions />
       </div>
@@ -38,13 +48,18 @@ class App extends Component {
 
 class Budget extends Component {
   render() {
+    const {
+      budget, 
+      spend
+    } = this.props;
+
     return (
       <form>
         <label for="monthlyBudget">Monthly Budget
-          <input id="monlthyBudget" type="number" />
+          <input id="monlthyBudget" type="number" value={budget} />
         </label> <br />
         <label for="remainingBudget">Remaining Budget
-          <input id="remainingBudget" type="number" />
+          <input id="remainingBudget" type="number" value={spend} />
         </label>
       </form>
     )
