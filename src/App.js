@@ -1,18 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+const list = [
+  {
+    adgroup: 'CoolSculpting',
+    budget: 3000
+  },
+  {
+    adgroup: 'Weight Loss',
+    budget: 1000
+  }
+]
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>AdWords Budget Planner</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <form>
+          <label for="monthlyBudget">Monthly Budget
+            <input id="monlthyBudget" type="number" />
+          </label> <br />
+          <label for="remainingBudget">Remaining Budget
+            <input id="remainingBudget" type="number" />
+          </label>
+        </form>
+        <hr />
+        <form>
+          <label for="campaign-1">Campaign 1
+            <input id="campaign-1" type="text" />
+          </label>
+          <label for="budget-1">Budget:
+            <input id="budget-1" type="number" />
+          </label> <br />
+          <label for="campaign-2">Campaign 2
+            <input id="campaign-2" type="text" />
+          </label>
+          <label for="budget-2">Budget:
+            <input id="budget-2" type="number" />
+          </label> <br />
+        </form>
+        <hr />
+        <div class="suggestions">
+          <div class="campaign-1">Campaign 1: $2000</div>
+          <div class="campaign-2">Campaign 2: $1000</div>
+        </div>
       </div>
     );
   }
