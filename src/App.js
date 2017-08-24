@@ -13,11 +13,20 @@ const list = [
 ]
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: 'AdWords Budget Planner'
+    }
+  }
+
   render() {
+    const {title} = this.state;
     return (
       <div className="App">
         <div className="App-header">
-          <h2>AdWords Budget Planner</h2>
+          <h2>{title}</h2>
         </div>
         <form>
           <label for="monthlyBudget">Monthly Budget
