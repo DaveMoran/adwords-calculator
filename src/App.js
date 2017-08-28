@@ -42,6 +42,17 @@ class App extends Component {
       remainingBudget
     } = this.state;
 
+    const campaigns = [
+      {
+        name: 'CoolSculpting',
+        budget: 2000
+      },
+      {
+        name: 'Weight Loss',
+        budget: 1000
+      }
+    ]
+
     return (
       <div className="App">
         <div className="App-header">
