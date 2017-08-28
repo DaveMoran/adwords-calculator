@@ -39,14 +39,22 @@ class App extends Component {
         <div className="App-header">
           <h2>{title}</h2>
         </div>
-        <Budget 
-          budget={monthlyBudget}
-          spend={currentSpend}
-          onBudgetChange={this.onBudgetChange}
-          onSpendChange={this.onSpendChange}
-        />
-        <Campaigns />
-        <Suggestions />
+        <div className="container">
+          <div className="col-12 col-sm-6">
+            <Budget 
+              budget={monthlyBudget}
+              spend={currentSpend}
+              onBudgetChange={this.onBudgetChange}
+              onSpendChange={this.onSpendChange}
+            />
+            <hr />
+            <Campaigns />
+            <Suggestions />
+          </div>
+          <div className="col-12 col-sm-6">
+
+          </div>
+        </div>
       </div>
     );
   }
@@ -63,22 +71,30 @@ class Budget extends Component {
 
     return (
       <form>
-        <label htmlFor="monthlyBudget">Monthly Budget
-          <input 
-            id="monthlyBudget" 
-            type="number" 
-            value={budget} 
-            onChange={onBudgetChange}
-          />
-        </label> <br />
-        <label htmlFor="remainingBudget">Remaining Budget
-          <input 
-            id="remainingBudget" 
-            type="number" 
-            value={spend} 
-            onChange={onSpendChange}
-          />
-        </label>
+        <div className="form-group row">
+          <label htmlFor="monthlyBudget" className="col-sm-6 col-form-label">Monthly Budget</label>
+          <div className="col-sm-6">
+            <input 
+              id="monthlyBudget" 
+              className="form-control"
+              type="number" 
+              value={budget} 
+              onChange={onBudgetChange}
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="remainingBudget" className="col-sm-6 col-form-label">Remaining Budget</label>
+          <div className="col-sm-6">
+            <input 
+              id="remainingBudget" 
+              className="form-control"
+              type="number" 
+              value={spend} 
+              onChange={onSpendChange}
+            />
+          </div>
+        </div>
       </form>
     )
   }
