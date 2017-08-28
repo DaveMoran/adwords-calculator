@@ -128,18 +128,34 @@ class Campaigns extends Component {
   render() {
     return (
       <form>
-        <label htmlFor="campaign-1">Campaign 1
-          <input id="campaign-1" type="text" />
-        </label>
-        <label htmlFor="budget-1">Budget:
-          <input id="budget-1" type="number" />
-        </label> <br />
-        <label htmlFor="campaign-2">Campaign 2
-          <input id="campaign-2" type="text" />
-        </label>
-        <label htmlFor="budget-2">Budget:
-          <input id="budget-2" type="number" />
-        </label> <br />
+        <div className="row">
+          <div className="col-sm-5">
+            <div className="form-group">
+              <label htmlFor="campaign1">Campaign</label>
+              <input 
+                id="campaign1"
+                className="form-control"
+                type="text"
+              />
+            </div>
+          </div>
+          <div className="col-sm-5">
+            <div className="form-group">
+              <label htmlFor="campaign1">Budget</label>
+              <input 
+                id="campaign1"
+                className="form-control"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div className="btn-group">
+              <button type="button" className="btn btn-success">+</button>
+              <button type="button" className="btn btn-danger">-</button>
+            </div>
+          </div>
+        </div>
       </form>
     )
   }
