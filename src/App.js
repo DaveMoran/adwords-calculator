@@ -7,9 +7,9 @@ class App extends Component {
 
     this.state = {
       title: 'AdWords Budget Planner',
-      monthlyBudget: 0,
-      currentSpend: 0,
-      remainingBudget: 0
+      monthlyBudget: 3000,
+      currentSpend: 1500,
+      remainingBudget: 1500
     }
 
     this.onBudgetChange = this.onBudgetChange.bind(this);
@@ -69,7 +69,9 @@ class App extends Component {
                 onSpendChange={this.onSpendChange}
               />
               <hr />
-              <Campaigns />
+              <Campaigns
+                campaigns={campaigns} 
+              />
             </div>
             <div className="col-sm-6">
               <h2>Suggestions</h2>
@@ -126,36 +128,42 @@ class Budget extends Component {
 
 class Campaigns extends Component {
   render() {
+    const { campaigns } = this.props;
     return (
       <form>
-        <div className="row">
-          <div className="col-sm-5">
-            <div className="form-group">
-              <label htmlFor="campaign1">Campaign</label>
-              <input 
-                id="campaign1"
-                className="form-control"
-                type="text"
-              />
+        { campaigns.map( item =>
+          <div key={item.name} className="row">
+            <div className="col-sm-5">
+              <div className="form-group">
+                <label htmlFor="campaign1">Campaign</label>
+                <input 
+                  id="campaign1"
+                  className="form-control"
+                  type="text"
+                  value={item.name}
+                />
+              </div>
+            </div>
+            <div className="col-sm-5">
+              <div className="form-group">
+                <label htmlFor="campaign1">Budget</label>
+                <input 
+                  id="campaign1"
+                  className="form-control"
+                  type="number"
+                  value={item.budget}
+                />
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div className="btn-group">
+                <button type="button" className="btn btn-success">+</button>
+                <button type="button" className="btn btn-danger">-</button>
+              </div>
             </div>
           </div>
-          <div className="col-sm-5">
-            <div className="form-group">
-              <label htmlFor="campaign1">Budget</label>
-              <input 
-                id="campaign1"
-                className="form-control"
-                type="text"
-              />
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div className="btn-group">
-              <button type="button" className="btn btn-success">+</button>
-              <button type="button" className="btn btn-danger">-</button>
-            </div>
-          </div>
-        </div>
+        )}
+        
       </form>
     )
   }
