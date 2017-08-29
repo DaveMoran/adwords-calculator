@@ -173,20 +173,26 @@ class Campaigns extends Component {
 }
 
 class Suggestions extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  calculateRemainingBudget(remainingBudget, ratio){
+    return remainingBudget * ratio
+  }
+
   render() {
     const { 
       remainingBudget,
       campaigns
     } = this.props
-
-
     return (
       <div className="suggestions">
         <p>You currently have ${remainingBudget} left to spend this month</p>
         <p>To stay on track, update the following campaign's daily bids to the following:</p>
         <ul>
           { campaigns.map( item =>
-            <li>{item.name}: ${item.budget}</li>
+            <li>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
           )}
         </ul>
       </div>
