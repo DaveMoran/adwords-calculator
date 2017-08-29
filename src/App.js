@@ -178,7 +178,7 @@ class Suggestions extends Component {
   }
 
   calculateRemainingBudget(remainingBudget, ratio){
-    return remainingBudget * ratio
+    return Math.round( (remainingBudget * ratio) * 100 ) / 100;
   }
 
   render() {
