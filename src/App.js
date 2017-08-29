@@ -143,7 +143,7 @@ class Campaigns extends Component {
                   id="campaign1"
                   className="form-control"
                   type="text"
-                  value={item.name}
+                  defaultValue={item.name}
                 />
               </div>
             </div>
@@ -186,7 +186,7 @@ class Suggestions extends Component {
         <p>To stay on track, update the following campaign's daily bids to the following:</p>
         <ul>
           { campaigns.map( item =>
-            <li>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
+            <li key={item.name}>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
           )}
         </ul>
       </div>
