@@ -45,11 +45,13 @@ class App extends Component {
     const campaigns = [
       {
         name: 'CoolSculpting',
-        budget: 2000
+        budget: 2000,
+        ratio: (2000 / 3000)
       },
       {
         name: 'Weight Loss',
-        budget: 1000
+        budget: 1000,
+        ratio: (1000 / 3000)
       }
     ]
 
@@ -77,6 +79,7 @@ class App extends Component {
               <h2>Suggestions</h2>
               <Suggestions 
                 remainingBudget={remainingBudget}
+                campaigns={campaigns}
               />
             </div>
           </div>
@@ -171,14 +174,20 @@ class Campaigns extends Component {
 
 class Suggestions extends Component {
   render() {
-    const { remainingBudget } = this.props
+    const { 
+      remainingBudget,
+      campaigns
+    } = this.props
+
+
     return (
       <div className="suggestions">
         <p>You currently have ${remainingBudget} left to spend this month</p>
         <p>To stay on track, update the following campaign's daily bids to the following:</p>
         <ul>
-          <li>Campaign 1: $$$</li>
-          <li>Campaign 2: $$$</li>
+          { campaigns.map( item =>
+            <li>{item.name}: ${item.budget}</li>
+          )}
         </ul>
       </div>
     )
