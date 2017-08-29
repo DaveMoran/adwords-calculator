@@ -136,7 +136,7 @@ class Campaigns extends Component {
       <form>
         { campaigns.map( item =>
           <div key={item.name} className="row">
-            <div className="col-sm-5">
+            <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="campaign1">Campaign</label>
                 <input 
@@ -147,7 +147,7 @@ class Campaigns extends Component {
                 />
               </div>
             </div>
-            <div className="col-sm-5">
+            <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="campaign1">Budget</label>
                 <input 
@@ -156,12 +156,6 @@ class Campaigns extends Component {
                   type="number"
                   value={item.budget}
                 />
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div className="btn-group">
-                <button type="button" className="btn btn-success">+</button>
-                <button type="button" className="btn btn-danger">-</button>
               </div>
             </div>
           </div>
