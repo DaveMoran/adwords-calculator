@@ -16,6 +16,7 @@ class App extends Component {
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onSpendChange = this.onSpendChange.bind(this);
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
+    this.addNewCampaign = this.addNewCampaign.bind(this);
   }
 
   componentDidMount(){
@@ -49,6 +50,13 @@ class App extends Component {
     })
   }
 
+  addNewCampaign(event){
+    event.preventDefault();
+    this.setState({
+      campaigns: this.campaigns.push({})
+    })
+  }
+
   render() {
     const {
       title, 
@@ -56,7 +64,8 @@ class App extends Component {
       currentSpend,
       remainingBudget,
       daysLeftInMonth,
-      campaigns
+      campaigns,
+      addNewCampaign
     } = this.state;
 
     return (
@@ -76,6 +85,10 @@ class App extends Component {
                 calculateRemainingBudget={this.calculateRemainingBudget}
               />
               <hr />
+              <Campaigns
+                campaigns={campaigns}
+                addNewCampaign={addNewCampaign}
+              />
             </div>
             <div className="col-sm-6">
               <h2>Suggestions</h2>
@@ -139,7 +152,10 @@ class Budget extends Component {
 
 class Campaigns extends Component {
   render() {
-    const { campaigns } = this.props;
+    const { 
+      campaigns,
+      addNewCampaign
+     } = this.props;
     return (
       <form>
         { campaigns && campaigns.map( item =>
@@ -168,16 +184,18 @@ class Campaigns extends Component {
             </div>
           </div>
         )}
-        
+        <button 
+          className="btn btn-primary" 
+          onClick={addNewCampaign}
+        >
+          Add New Campaign
+        </button>
       </form>
     )
   }
 }
 
 class Suggestions extends Component {
-  constructor(props){
-    super(props);
-  }
 
   calculateRemainingBudget(remainingBudget, ratio){
     return Math.round( (remainingBudget * ratio) * 100 ) / 100;
@@ -192,12 +210,16 @@ class Suggestions extends Component {
     return (
       <div className="suggestions">
         <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} days.</p>
-        <p>To stay on track, update the following campaign's daily bids to the following:</p>
-        <ul>
-          { campaigns && campaigns.map( item =>
-            <li key={item.name}>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
-          )}
-        </ul>
+        {campaigns && 
+        <div className="suggestions-list">
+          <p>To stay on track, update the following campaign's daily bids to the following:</p>
+          <ul>
+            { campaigns.map( item =>
+              <li key={item.name}>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
+            )}
+          </ul>
+        </div>
+        }
       </div>
     )
   }
