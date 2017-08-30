@@ -62,7 +62,7 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
-    const campaignID = this.state.campaigns.length;
+    const campaignID = Date.now();
     this.setState({
       campaigns: this.state.campaigns.concat({
         id: campaignID,
