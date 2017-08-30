@@ -7,31 +7,34 @@ class App extends Component {
 
     this.state = {
       title: 'AdWords Budget Planner',
-      monthlyBudget: 3000,
-      currentSpend: 1500,
-      remainingBudget: 1500
+      monthlyBudget: 2500,
+      currentSpend: 1106,
+      remainingBudget: 1394,
+      campaings: []
     }
 
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onSpendChange = this.onSpendChange.bind(this);
+    this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
   }
   
   onBudgetChange(event) {
-    const currentBudget = event.target.value;
-    const currentSpend = this.state.currentSpend;
     this.setState({
       monthlyBudget: event.target.value,
-      remainingBudget: currentBudget - currentSpend
     });
   }
 
   onSpendChange(event) {
-    const currentBudget = this.state.monthlyBudget;
-    const currentSpend = event.target.value;
     this.setState({
       currentSpend: event.target.value,
-      remainingBudget: currentBudget - currentSpend
     });
+  }
+
+  calculateRemainingBudget(event) {
+    event.preventDefault();
+    this.setState({
+      remainingBudget: this.state.monthlyBudget - this.state.currentSpend
+    })
   }
 
   render() {
@@ -39,21 +42,9 @@ class App extends Component {
       title, 
       monthlyBudget, 
       currentSpend,
-      remainingBudget
+      remainingBudget,
+      campaigns
     } = this.state;
-
-    const campaigns = [
-      {
-        name: 'CoolSculpting',
-        budget: 2000,
-        ratio: (2000 / 3000)
-      },
-      {
-        name: 'Weight Loss',
-        budget: 1000,
-        ratio: (1000 / 3000)
-      }
-    ]
 
     return (
       <div className="App">
@@ -69,11 +60,9 @@ class App extends Component {
                 spend={currentSpend}
                 onBudgetChange={this.onBudgetChange}
                 onSpendChange={this.onSpendChange}
+                calculateRemainingBudget={this.calculateRemainingBudget}
               />
               <hr />
-              <Campaigns
-                campaigns={campaigns} 
-              />
             </div>
             <div className="col-sm-6">
               <h2>Suggestions</h2>
@@ -95,7 +84,8 @@ class Budget extends Component {
       budget, 
       spend,
       onBudgetChange,
-      onSpendChange
+      onSpendChange,
+      calculateRemainingBudget
     } = this.props;
 
     return (
@@ -124,6 +114,10 @@ class Budget extends Component {
             />
           </div>
         </div>
+        <button 
+          type="submit" 
+          className="btn btn-primary"
+          onClick={calculateRemainingBudget}>Calculate</button>
       </form>
     )
   }
@@ -134,7 +128,7 @@ class Campaigns extends Component {
     const { campaigns } = this.props;
     return (
       <form>
-        { campaigns.map( item =>
+        { campaigns && campaigns.map( item =>
           <div key={item.name} className="row">
             <div className="col-sm-6">
               <div className="form-group">
@@ -185,7 +179,7 @@ class Suggestions extends Component {
         <p>You currently have ${remainingBudget} left to spend this month</p>
         <p>To stay on track, update the following campaign's daily bids to the following:</p>
         <ul>
-          { campaigns.map( item =>
+          { campaigns && campaigns.map( item =>
             <li key={item.name}>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
           )}
         </ul>
