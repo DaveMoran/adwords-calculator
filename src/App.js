@@ -40,11 +40,7 @@ class App extends Component {
   }
 
   onItemNameChange(event) {
-    let itemName = event.target.id;
-    itemName += event.target.value;
-    this.setState({
-
-    })
+    
   }
 
   onSpendChange(event) {
@@ -62,13 +58,17 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
-    const campaignID = Date.now();
+    const {campaigns} = this.state;
+    let timestamp = Date.now();
     this.setState({
-      campaigns: this.state.campaigns.concat({
-        id: campaignID,
-        name: '',
-        budget: 0
-      })
+      campaigns: [
+        ...campaigns,
+        {
+          id: [timestamp],
+          name: '',
+          budget: 0
+        }
+      ]
     })
   }
 
@@ -183,7 +183,7 @@ class Campaigns extends Component {
                   id={item.id}
                   className="form-control"
                   type="text"
-                  defaultValue={item.name}
+                  value={item.name}
                   onChange={onItemNameChange}
                 />
               </div>
