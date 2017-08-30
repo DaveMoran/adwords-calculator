@@ -7,10 +7,10 @@ class App extends Component {
 
     this.state = {
       title: 'AdWords Budget Planner',
-      monthlyBudget: 2500,
-      currentSpend: 1106,
-      remainingBudget: 1394,
-      campaings: []
+      monthlyBudget: 0,
+      currentSpend: 0,
+      remainingBudget: 0,
+      daysLeftInMonth: 0
     }
 
     this.onBudgetChange = this.onBudgetChange.bind(this);
@@ -32,8 +32,16 @@ class App extends Component {
 
   calculateRemainingBudget(event) {
     event.preventDefault();
+
+    const today = new Date();
+    const now = today.getDate();
+    const month = today.getMonth();
+
+    const monthArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    
     this.setState({
-      remainingBudget: this.state.monthlyBudget - this.state.currentSpend
+      remainingBudget: this.state.monthlyBudget - this.state.currentSpend,
+      daysLeftInMonth: (monthArray[month] - now)
     })
   }
 
@@ -43,6 +51,7 @@ class App extends Component {
       monthlyBudget, 
       currentSpend,
       remainingBudget,
+      daysLeftInMonth,
       campaigns
     } = this.state;
 
@@ -69,6 +78,7 @@ class App extends Component {
               <Suggestions 
                 remainingBudget={remainingBudget}
                 campaigns={campaigns}
+                daysLeftInMonth={daysLeftInMonth}
               />
             </div>
           </div>
@@ -172,11 +182,12 @@ class Suggestions extends Component {
   render() {
     const { 
       remainingBudget,
+      daysLeftInMonth,
       campaigns
     } = this.props
     return (
       <div className="suggestions">
-        <p>You currently have ${remainingBudget} left to spend this month</p>
+        <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} days.</p>
         <p>To stay on track, update the following campaign's daily bids to the following:</p>
         <ul>
           { campaigns && campaigns.map( item =>
