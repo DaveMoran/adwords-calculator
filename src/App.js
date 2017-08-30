@@ -17,6 +17,18 @@ class App extends Component {
     this.onSpendChange = this.onSpendChange.bind(this);
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
   }
+
+  componentDidMount(){
+    const today = new Date();
+    const now = today.getDate();
+    const month = today.getMonth();
+
+    const monthArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    
+    this.setState({
+      daysLeftInMonth: (monthArray[month] - now)
+    })
+  }
   
   onBudgetChange(event) {
     this.setState({
@@ -31,17 +43,9 @@ class App extends Component {
   }
 
   calculateRemainingBudget(event) {
-    event.preventDefault();
-
-    const today = new Date();
-    const now = today.getDate();
-    const month = today.getMonth();
-
-    const monthArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    
+    event.preventDefault();    
     this.setState({
       remainingBudget: this.state.monthlyBudget - this.state.currentSpend,
-      daysLeftInMonth: (monthArray[month] - now)
     })
   }
 
