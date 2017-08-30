@@ -16,6 +16,7 @@ class App extends Component {
 
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onSpendChange = this.onSpendChange.bind(this);
+    this.onItemNameChange = this.onItemNameChange.bind(this);
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
     this.addNewCampaign = this.addNewCampaign.bind(this);
   }
@@ -38,6 +39,14 @@ class App extends Component {
     });
   }
 
+  onItemNameChange(event) {
+    let itemName = event.target.id;
+    itemName += event.target.value;
+    this.setState({
+
+    })
+  }
+
   onSpendChange(event) {
     this.setState({
       currentSpend: event.target.value,
@@ -53,9 +62,10 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
-    
+    const campaignID = this.state.campaigns.length;
     this.setState({
       campaigns: this.state.campaigns.concat({
+        id: campaignID,
         name: '',
         budget: 0
       })
@@ -92,6 +102,7 @@ class App extends Component {
               <Campaigns
                 campaigns={campaigns}
                 addNewCampaign={this.addNewCampaign}
+                onItemNameChange={this.onItemNameChange}
               />
             </div>
             <div className="col-sm-6">
@@ -158,20 +169,22 @@ class Campaigns extends Component {
   render() {
     const { 
       campaigns,
-      addNewCampaign
+      addNewCampaign,
+      onItemNameChange
      } = this.props;
     return (
       <form>
         { campaigns && campaigns.map( item =>
-          <div key={item.name} className="row">
+          <div key={item.id} className="row">
             <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="campaign1">Campaign</label>
                 <input 
-                  id="campaign1"
+                  id={item.id}
                   className="form-control"
                   type="text"
                   defaultValue={item.name}
+                  onChange={onItemNameChange}
                 />
               </div>
             </div>
@@ -201,10 +214,6 @@ class Campaigns extends Component {
 
 class Suggestions extends Component {
 
-  calculateRemainingBudget(remainingBudget, ratio){
-    return Math.round( (remainingBudget * ratio) * 100 ) / 100;
-  }
-
   render() {
     const { 
       remainingBudget,
@@ -213,17 +222,7 @@ class Suggestions extends Component {
     } = this.props
     return (
       <div className="suggestions">
-        <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} days.</p>
-        {campaigns && 
-        <div className="suggestions-list">
-          <p>To stay on track, update the following campaign's daily bids to the following:</p>
-          <ul>
-            { campaigns.map( item =>
-              <li key={item.name}>{item.name}: ${this.calculateRemainingBudget(remainingBudget, item.ratio)}</li>
-            )}
-          </ul>
-        </div>
-        }
+        <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} day(s).</p>
       </div>
     )
   }
