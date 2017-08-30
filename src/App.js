@@ -40,7 +40,8 @@ class App extends Component {
   }
 
   onItemNameChange(event) {
-    
+    const itemID = event.target.id.replace('-label', '');
+    console.log(itemID);
   }
 
   onSpendChange(event) {
@@ -178,9 +179,9 @@ class Campaigns extends Component {
           <div key={item.id} className="row">
             <div className="col-sm-6">
               <div className="form-group">
-                <label htmlFor="campaign1">Campaign</label>
+                <label htmlFor={item.id + '-label'}>Campaign</label>
                 <input 
-                  id={item.id}
+                  id={item.id + '-label'}
                   className="form-control"
                   type="text"
                   value={item.name}
@@ -190,9 +191,9 @@ class Campaigns extends Component {
             </div>
             <div className="col-sm-6">
               <div className="form-group">
-                <label htmlFor="campaign1">Budget</label>
+                <label htmlFor={item.id + '-budget'}>Budget</label>
                 <input 
-                  id="campaign1"
+                  id={item.id + '-budget'}
                   className="form-control"
                   type="number"
                   value={item.budget}
@@ -223,6 +224,11 @@ class Suggestions extends Component {
     return (
       <div className="suggestions">
         <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} day(s).</p>
+        <ul>
+        { campaigns && campaigns.map( item =>
+          <li key={item.id}>{item.name}: ${item.budget}</li>  
+        )}
+        </ul>
       </div>
     )
   }
