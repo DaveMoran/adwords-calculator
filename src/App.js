@@ -10,7 +10,8 @@ class App extends Component {
       monthlyBudget: 0,
       currentSpend: 0,
       remainingBudget: 0,
-      daysLeftInMonth: 0
+      daysLeftInMonth: 0,
+      campaigns: []
     }
 
     this.onBudgetChange = this.onBudgetChange.bind(this);
@@ -52,8 +53,12 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
+    
     this.setState({
-      campaigns: this.campaigns.push({})
+      campaigns: this.state.campaigns.concat({
+        name: '',
+        budget: 0
+      })
     })
   }
 
@@ -64,8 +69,7 @@ class App extends Component {
       currentSpend,
       remainingBudget,
       daysLeftInMonth,
-      campaigns,
-      addNewCampaign
+      campaigns
     } = this.state;
 
     return (
@@ -87,7 +91,7 @@ class App extends Component {
               <hr />
               <Campaigns
                 campaigns={campaigns}
-                addNewCampaign={addNewCampaign}
+                addNewCampaign={this.addNewCampaign}
               />
             </div>
             <div className="col-sm-6">
