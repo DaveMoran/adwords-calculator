@@ -29,7 +29,7 @@ class App extends Component {
     const monthArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     
     this.setState({
-      daysLeftInMonth: (monthArray[month] - now)
+      daysLeftInMonth: (monthArray[month] - now + 1)
     })
   }
   
@@ -41,7 +41,16 @@ class App extends Component {
 
   onItemNameChange(event) {
     const itemID = event.target.id.replace('-label', '');
-    console.log(itemID);
+    const currentCampaigns = this.state.campaigns;
+    for (var i in currentCampaigns) {
+      if(currentCampaigns[i].id == itemID) {
+        currentCampaigns[i].name = event.target.value
+      }
+    }
+
+    this.setState({
+      campaigns: currentCampaigns
+    })
   }
 
   onSpendChange(event) {
