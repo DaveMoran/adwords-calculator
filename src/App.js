@@ -17,6 +17,7 @@ class App extends Component {
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onSpendChange = this.onSpendChange.bind(this);
     this.onItemNameChange = this.onItemNameChange.bind(this);
+    this.onItemBudgetChange = this.onItemBudgetChange.bind(this);
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
     this.addNewCampaign = this.addNewCampaign.bind(this);
   }
@@ -45,6 +46,20 @@ class App extends Component {
     for (var i in currentCampaigns) {
       if(currentCampaigns[i].id == itemID) {
         currentCampaigns[i].name = event.target.value
+      }
+    }
+
+    this.setState({
+      campaigns: currentCampaigns
+    })
+  }
+  
+  onItemBudgetChange(event) {
+    const itemID = event.target.id.replace('-budget', '');
+    const currentCampaigns = this.state.campaigns;
+    for (var i in currentCampaigns) {
+      if(currentCampaigns[i].id == itemID) {
+        currentCampaigns[i].budget = event.target.value
       }
     }
 
@@ -113,6 +128,7 @@ class App extends Component {
                 campaigns={campaigns}
                 addNewCampaign={this.addNewCampaign}
                 onItemNameChange={this.onItemNameChange}
+                onItemBudgetChange={this.onItemBudgetChange}
               />
             </div>
             <div className="col-sm-6">
@@ -180,7 +196,8 @@ class Campaigns extends Component {
     const { 
       campaigns,
       addNewCampaign,
-      onItemNameChange
+      onItemNameChange,
+      onItemBudgetChange
      } = this.props;
     return (
       <form>
@@ -206,6 +223,7 @@ class Campaigns extends Component {
                   className="form-control"
                   type="number"
                   value={item.budget}
+                  onChange={onItemBudgetChange}
                 />
               </div>
             </div>
