@@ -19,6 +19,7 @@ class App extends Component {
     this.onItemNameChange = this.onItemNameChange.bind(this);
     this.onItemBudgetChange = this.onItemBudgetChange.bind(this);
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
+    this.calculateSuggestedBudgets = this.calculateSuggestedBudgets.bind(this);
     this.addNewCampaign = this.addNewCampaign.bind(this);
   }
 
@@ -91,9 +92,24 @@ class App extends Component {
         {
           id: [timestamp],
           name: '',
-          budget: 0
+          budget: 0,
+          suggestedBudget: 0
         }
       ]
+    })
+  }
+
+  calculateSuggestedBudgets(event){
+    event.preventDefault();
+
+    const allCampaigns = this.state.campaigns;
+    for(var i in allCampaigns) {
+      let budgetRatio = (allCampaigns[i].budget * 30.4 / this.state.monthlyBudget);
+      allCampaigns[i].suggestedBudget = Math.round(100 * (this.state.remainingBudget * budgetRatio / this.state.daysLeftInMonth)) / 100; 
+    }
+
+    this.setState({
+      campaigns: allCampaigns
     })
   }
 
@@ -129,6 +145,7 @@ class App extends Component {
                 addNewCampaign={this.addNewCampaign}
                 onItemNameChange={this.onItemNameChange}
                 onItemBudgetChange={this.onItemBudgetChange}
+                calculateSuggestedBudgets={this.calculateSuggestedBudgets}
               />
             </div>
             <div className="col-sm-6">
@@ -192,12 +209,14 @@ class Budget extends Component {
 }
 
 class Campaigns extends Component {
+  
   render() {
     const { 
       campaigns,
       addNewCampaign,
       onItemNameChange,
-      onItemBudgetChange
+      onItemBudgetChange,
+      calculateSuggestedBudgets
      } = this.props;
     return (
       <form>
@@ -235,6 +254,12 @@ class Campaigns extends Component {
         >
           Add New Campaign
         </button>
+        <button 
+          className="btn btn-success"
+          onClick={calculateSuggestedBudgets}
+        >
+          Calculate Budgets
+        </button>
       </form>
     )
   }
@@ -253,7 +278,7 @@ class Suggestions extends Component {
         <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} day(s).</p>
         <ul>
         { campaigns && campaigns.map( item =>
-          <li key={item.id}>{item.name}: ${item.budget}</li>  
+          <li key={item.id}>{item.name}: ${item.suggestedBudget}</li>  
         )}
         </ul>
       </div>
