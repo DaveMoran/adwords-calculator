@@ -21,6 +21,7 @@ class App extends Component {
     this.calculateRemainingBudget = this.calculateRemainingBudget.bind(this);
     this.calculateSuggestedBudgets = this.calculateSuggestedBudgets.bind(this);
     this.addNewCampaign = this.addNewCampaign.bind(this);
+    this.removeCampaign = this.removeCampaign.bind(this);
   }
 
   componentDidMount(){
@@ -99,6 +100,10 @@ class App extends Component {
     })
   }
 
+  removeCampaign(event) {
+    event.preventDefault();
+  }
+
   calculateSuggestedBudgets(event){
     event.preventDefault();
 
@@ -143,6 +148,7 @@ class App extends Component {
               <Campaigns
                 campaigns={campaigns}
                 addNewCampaign={this.addNewCampaign}
+                removeCampaign={this.removeCampaign}
                 onItemNameChange={this.onItemNameChange}
                 onItemBudgetChange={this.onItemBudgetChange}
                 calculateSuggestedBudgets={this.calculateSuggestedBudgets}
@@ -214,6 +220,7 @@ class Campaigns extends Component {
     const { 
       campaigns,
       addNewCampaign,
+      removeCampaign,
       onItemNameChange,
       onItemBudgetChange,
       calculateSuggestedBudgets
@@ -222,7 +229,7 @@ class Campaigns extends Component {
       <form>
         { campaigns && campaigns.map( item =>
           <div key={item.id} className="row">
-            <div className="col-sm-6">
+            <div className="col-sm-5">
               <div className="form-group">
                 <label htmlFor={item.id + '-label'}>Campaign</label>
                 <input 
@@ -234,9 +241,9 @@ class Campaigns extends Component {
                 />
               </div>
             </div>
-            <div className="col-sm-6">
+            <div className="col-sm-5">
               <div className="form-group">
-                <label htmlFor={item.id + '-budget'}>Budget</label>
+                <label htmlFor={item.id + '-budget'}>Daily Budget</label>
                 <input 
                   id={item.id + '-budget'}
                   className="form-control"
@@ -245,6 +252,12 @@ class Campaigns extends Component {
                   onChange={onItemBudgetChange}
                 />
               </div>
+            </div>
+            <div className="col-sm-2">
+              <label>&nbsp;</label>
+              <a href="#" className="form-control" onClick={removeCampaign}>
+                <i className="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
             </div>
           </div>
         )}
