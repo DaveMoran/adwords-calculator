@@ -91,7 +91,7 @@ class App extends Component {
       campaigns: [
         ...campaigns,
         {
-          id: [timestamp],
+          id: timestamp,
           name: '',
           budget: 0,
           suggestedBudget: 0
@@ -102,6 +102,17 @@ class App extends Component {
 
   removeCampaign(event) {
     event.preventDefault();
+    const itemID = event.target.id.replace('-delete', '');
+    const currentCampaigns = this.state.campaigns;
+    for(var i in currentCampaigns) {
+      if(currentCampaigns[i].id == itemID) {
+        currentCampaigns.splice(i, 1);
+      }
+    }
+
+    this.setState({
+      campaigns: currentCampaigns
+    });
   }
 
   calculateSuggestedBudgets(event){
@@ -254,10 +265,14 @@ class Campaigns extends Component {
               </div>
             </div>
             <div className="col-sm-2">
-              <label>&nbsp;</label>
-              <a href="#" className="form-control" onClick={removeCampaign}>
+              <label>Delete</label>
+              <button
+                id={item.id + '-delete'} 
+                className="btn btn-danger" 
+                onClick={removeCampaign}
+              >
                 <i className="fa fa-trash-o" aria-hidden="true"></i>
-              </a>
+              </button>
             </div>
           </div>
         )}
