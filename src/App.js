@@ -103,18 +103,11 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
-    const {campaigns} = this.state;
-    let timestamp = Date.now();
-    this.setState({
-      campaigns: [
-        ...campaigns,
-        {
-          id: timestamp,
-          name: '',
-          budget: 0,
-          suggestedBudget: 0
-        }
-      ]
+    fire.database().ref('campaigns').push({
+      id: Date.now(),
+      name: '',
+      budget: 0,
+      suggestedBudget: 0
     })
   }
 
@@ -128,9 +121,8 @@ class App extends Component {
       }
     }
 
-    this.setState({
-      campaigns: currentCampaigns
-    });
+    fire.database().ref('campaigns').remove()
+
   }
 
   calculateSuggestedBudgets(event){
