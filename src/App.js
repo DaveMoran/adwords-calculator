@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fire from './fire';
 import './App.css';
 
 class App extends Component {
@@ -22,6 +23,23 @@ class App extends Component {
     this.calculateSuggestedBudgets = this.calculateSuggestedBudgets.bind(this);
     this.addNewCampaign = this.addNewCampaign.bind(this);
     this.removeCampaign = this.removeCampaign.bind(this);
+  }
+
+  componentWillMount() {
+    /* Create reference to campaigns in Firebase Database */
+    let campaignsRef = fire.database().ref('campaigns').orderByKey().limitToLast(100);
+    campaignsRef.on('child_added', snapshot => {
+      /* Update React state when campaign is added at Firebase Database */
+      let campaign = {
+        id: snapshot.key,
+        name: snapshot.val().name,
+        budget: snapshot.val().budget,
+        suggestedBudget: snapshot.val().suggestedBudget
+      }
+      this.setState({
+        campaigns: [campaign].concat(this.state.campaigns)
+      });
+    })
   }
 
   componentDidMount(){
