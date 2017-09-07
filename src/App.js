@@ -54,6 +54,13 @@ class App extends Component {
         currentSpend: snapshot.val()
       })
     }).bind(this);
+    
+    let remainingBudgetRef = fire.database().ref('remainingBudget');
+    remainingBudgetRef.on('value', snapshot => {
+      this.setState({
+        remainingBudget: snapshot.val()
+      })
+    }).bind(this);
 
   }
 
@@ -107,9 +114,7 @@ class App extends Component {
 
   calculateRemainingBudget(event) {
     event.preventDefault();    
-    this.setState({
-      remainingBudget: this.state.monthlyBudget - this.state.currentSpend,
-    })
+    fire.database().ref('remainingBudget').set(parseInt(this.state.monthlyBudget - this.state.currentSpend));
   }
 
   addNewCampaign(event){
