@@ -47,6 +47,13 @@ class App extends Component {
         monthlyBudget: snapshot.val()
       })
     }).bind(this);
+    
+    let currentSpendRef = fire.database().ref('currentSpend');
+    currentSpendRef.on('value', snapshot => {
+      this.setState({
+        currentSpend: snapshot.val()
+      })
+    }).bind(this);
 
   }
 
@@ -64,6 +71,10 @@ class App extends Component {
   
   onBudgetChange(event) {
     fire.database().ref('monthlyBudget').set(parseInt(event.target.value));
+  }
+  
+  onSpendChange(event) {
+    fire.database().ref('currentSpend').set(parseInt(event.target.value));
   }
 
   onItemNameChange(event) {
@@ -92,12 +103,6 @@ class App extends Component {
     this.setState({
       campaigns: currentCampaigns
     })
-  }
-
-  onSpendChange(event) {
-    this.setState({
-      currentSpend: event.target.value,
-    });
   }
 
   calculateRemainingBudget(event) {
