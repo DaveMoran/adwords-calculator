@@ -39,7 +39,15 @@ class App extends Component {
       this.setState({
         campaigns: [campaign].concat(this.state.campaigns)
       });
-    })
+    }).bind(this);
+
+    let monthlyBudgetRef = fire.database().ref('monthlyBudget');
+    monthlyBudgetRef.on('value', snapshot => {
+      this.setState({
+        monthlyBudget: snapshot.val()
+      })
+    }).bind(this);
+
   }
 
   componentDidMount(){
@@ -55,14 +63,7 @@ class App extends Component {
   }
   
   onBudgetChange(event) {
-    let monthlyBudgetRef = fire.database().ref('monthlyBudget');
-    monthlyBudgetRef.set(parseInt(event.target.value));
-    
-    monthlyBudgetRef.on('value', snapshot => {
-      this.setState({
-        monthlyBudget: snapshot.val()
-      })
-    })
+    fire.database().ref('monthlyBudget').set(parseInt(event.target.value));
   }
 
   onItemNameChange(event) {
