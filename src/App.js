@@ -55,9 +55,14 @@ class App extends Component {
   }
   
   onBudgetChange(event) {
-    this.setState({
-      monthlyBudget: event.target.value,
-    });
+    let monthlyBudgetRef = fire.database().ref('monthlyBudget');
+    monthlyBudgetRef.set(parseInt(event.target.value));
+    
+    monthlyBudgetRef.on('value', snapshot => {
+      this.setState({
+        monthlyBudget: snapshot.val()
+      })
+    })
   }
 
   onItemNameChange(event) {
