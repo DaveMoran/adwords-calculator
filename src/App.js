@@ -31,7 +31,7 @@ class App extends Component {
     campaignsRef.on('child_added', snapshot => {
       /* Update React state when campaign is added at Firebase Database */
       let campaign = {
-        id: snapshot.key,
+        id: snapshot.val().id,
         name: snapshot.val().name,
         budget: snapshot.val().budget,
         suggestedBudget: snapshot.val().suggestedBudget
