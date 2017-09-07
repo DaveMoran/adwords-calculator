@@ -36,30 +36,23 @@ class App extends Component {
         budget: snapshot.val().budget,
         suggestedBudget: snapshot.val().suggestedBudget
       }
-      this.setState({
-        campaigns: [campaign].concat(this.state.campaigns)
-      });
+      
+      this.setState({ campaigns: [campaign].concat(this.state.campaigns) });
     }).bind(this);
 
     let monthlyBudgetRef = fire.database().ref('monthlyBudget');
     monthlyBudgetRef.on('value', snapshot => {
-      this.setState({
-        monthlyBudget: snapshot.val()
-      })
+      this.setState({ monthlyBudget: snapshot.val() })
     }).bind(this);
     
     let currentSpendRef = fire.database().ref('currentSpend');
     currentSpendRef.on('value', snapshot => {
-      this.setState({
-        currentSpend: snapshot.val()
-      })
+      this.setState({ currentSpend: snapshot.val() })
     }).bind(this);
     
     let remainingBudgetRef = fire.database().ref('remainingBudget');
     remainingBudgetRef.on('value', snapshot => {
-      this.setState({
-        remainingBudget: snapshot.val()
-      })
+      this.setState({ remainingBudget: snapshot.val() })
     }).bind(this);
 
   }
