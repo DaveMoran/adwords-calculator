@@ -57,7 +57,8 @@ class App extends Component {
       for(var i in currentCampaigns) {
         let campaignKey = Object.keys(currentCampaigns[i])[0];
         if(campaignKey === snapshot.key) {
-          currentCampaigns[i][campaignKey].name = snapshot.val().name
+          currentCampaigns[i][campaignKey].name = snapshot.val().name,
+          currentCampaigns[i][campaignKey].budget = snapshot.val().budget
         }
       }
 
@@ -113,16 +114,8 @@ class App extends Component {
   
   onItemBudgetChange(event) {
     const itemID = event.target.id.replace('-budget', '');
-    const currentCampaigns = this.state.campaigns;
-    for (var i in currentCampaigns) {
-      if(currentCampaigns[i].id == itemID) {
-        currentCampaigns[i].budget = event.target.value
-      }
-    }
-
-    this.setState({
-      campaigns: currentCampaigns
-    })
+    let campaignRef = fire.database().ref('campaigns').child(itemID);
+    campaignRef.child('budget').set(parseInt(event.target.value, 10));
   }
 
   calculateRemainingBudget(event) {
