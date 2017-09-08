@@ -52,6 +52,20 @@ class App extends Component {
       })
     }).bind(this);
 
+    campaignsRef.on('child_changed', snapshot => {
+      const currentCampaigns = this.state.campaigns;
+      for(var i in currentCampaigns) {
+        let campaignKey = Object.keys(currentCampaigns[i])[0];
+        if(campaignKey === snapshot.key) {
+          currentCampaigns[i][campaignKey].name = snapshot.val().name
+        }
+      }
+
+      this.setState({
+        campaigns: currentCampaigns
+      })
+    })
+
     
 
     let monthlyBudgetRef = fire.database().ref('monthlyBudget');
