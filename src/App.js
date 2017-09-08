@@ -50,7 +50,9 @@ class App extends Component {
       this.setState({
         campaigns: currentCampaigns
       })
-    }).bind(this)
+    }).bind(this);
+
+    
 
     let monthlyBudgetRef = fire.database().ref('monthlyBudget');
     monthlyBudgetRef.on('value', snapshot => {
@@ -91,16 +93,8 @@ class App extends Component {
 
   onItemNameChange(event) {
     const itemID = event.target.id.replace('-label', '');
-    const currentCampaigns = this.state.campaigns;
-    for (var i in currentCampaigns) {
-      if(Object.keys(currentCampaigns[i])[0] === itemID) {
-        currentCampaigns[0][Object.keys(currentCampaigns[i])[0]].name = event.target.value;
-      }
-    }
-
-    this.setState({
-      campaigns: currentCampaigns
-    })
+    let campaignRef = fire.database().ref('campaigns').child(itemID);
+    campaignRef.child('name').set(event.target.value)
   }
   
   onItemBudgetChange(event) {
