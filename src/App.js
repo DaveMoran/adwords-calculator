@@ -31,9 +31,11 @@ class App extends Component {
     campaignsRef.on('child_added', snapshot => {
       /* Update React state when campaign is added at Firebase Database */
       let campaign = {
-        name: snapshot.val().name,
-        budget: snapshot.val().budget,
-        suggestedBudget: snapshot.val().suggestedBudget
+        [snapshot.key]: {
+          name: snapshot.val().name,
+          budget: snapshot.val().budget,
+          suggestedBudget: snapshot.val().suggestedBudget
+        }
       }
       
       this.setState({ campaigns: [campaign].concat(this.state.campaigns) });
@@ -257,13 +259,13 @@ class Campaigns extends Component {
      } = this.props;
     return (
       <form>
-        { campaigns && campaigns.map( item =>
-          <div key={item.id} className="row">
+        { campaigns && campaigns.map( item => 
+          <div key={Object.keys(item)[0]} className="row">
             <div className="col-sm-5">
               <div className="form-group">
-                <label htmlFor={item.id + '-label'}>Campaign</label>
+                <label htmlFor={Object.keys(item)[0] + '-label'}>Campaign</label>
                 <input 
-                  id={item.id + '-label'}
+                  id={Object.keys(item)[0] + '-label'}
                   className="form-control"
                   type="text"
                   value={item.name}
@@ -273,9 +275,9 @@ class Campaigns extends Component {
             </div>
             <div className="col-sm-5">
               <div className="form-group">
-                <label htmlFor={item.id + '-budget'}>Daily Budget</label>
+                <label htmlFor={Object.keys(item)[0] + '-budget'}>Daily Budget</label>
                 <input 
-                  id={item.id + '-budget'}
+                  id={Object.keys(item)[0] + '-budget'}
                   className="form-control"
                   type="number"
                   value={item.budget}
@@ -286,7 +288,7 @@ class Campaigns extends Component {
             <div className="col-sm-2">
               <label>Delete</label>
               <button
-                id={item.id + '-delete'} 
+                id={Object.keys(item)[0] + '-delete'} 
                 className="btn btn-danger" 
                 onClick={removeCampaign}
               >
