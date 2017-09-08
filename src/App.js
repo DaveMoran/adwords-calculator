@@ -71,11 +71,11 @@ class App extends Component {
   }
   
   onBudgetChange(event) {
-    fire.database().ref('monthlyBudget').set(parseInt(event.target.value));
+    fire.database().ref('monthlyBudget').set(parseInt(event.target.value, 10));
   }
   
   onSpendChange(event) {
-    fire.database().ref('currentSpend').set(parseInt(event.target.value));
+    fire.database().ref('currentSpend').set(parseInt(event.target.value, 10));
   }
 
   onItemNameChange(event) {
@@ -108,7 +108,10 @@ class App extends Component {
 
   calculateRemainingBudget(event) {
     event.preventDefault();    
-    fire.database().ref('remainingBudget').set(parseInt(this.state.monthlyBudget - this.state.currentSpend));
+    let monthlyBudget = this.state.monthlyBudget;
+    let currentSpend = this.state.currentSpend;
+    let remainingBudget = monthlyBudget - currentSpend;
+    fire.database().ref('remainingBudget').set(parseInt(remainingBudget, 10));
   }
 
   addNewCampaign(event){
@@ -327,7 +330,7 @@ class Suggestions extends Component {
         <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} day(s).</p>
         <ul>
         { campaigns && campaigns.map( item =>
-          <li key={item.id}>{item.name}: ${item.suggestedBudget}</li>  
+          <li key={Object.keys(item)[0]}>{item.name}: ${item.suggestedBudget}</li>  
         )}
         </ul>
       </div>
