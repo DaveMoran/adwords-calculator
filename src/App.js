@@ -31,7 +31,6 @@ class App extends Component {
     campaignsRef.on('child_added', snapshot => {
       /* Update React state when campaign is added at Firebase Database */
       let campaign = {
-        id: snapshot.val().id,
         name: snapshot.val().name,
         budget: snapshot.val().budget,
         suggestedBudget: snapshot.val().suggestedBudget
@@ -112,8 +111,9 @@ class App extends Component {
 
   addNewCampaign(event){
     event.preventDefault();
-    fire.database().ref('campaigns').push({
-      id: Date.now(),
+    let campaignsRef = fire.database().ref('campaigns');
+    let newCampaignRef = campaignsRef.push();
+    newCampaignRef.set({
       name: '',
       budget: 0,
       suggestedBudget: 0
