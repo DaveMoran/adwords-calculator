@@ -36,14 +36,21 @@ class App extends Component {
           budget: snapshot.val().budget,
           suggestedBudget: snapshot.val().suggestedBudget
         }
-      }
-
-    campaignsRef.on('child_removed', snapshot => {
-      console.log(snapshot.val());
-    }).bind(this)
-      
+      }      
       this.setState({ campaigns: [campaign].concat(this.state.campaigns) });
     }).bind(this);
+
+    campaignsRef.on('child_removed', snapshot => {
+    const currentCampaigns = this.state.campaigns;
+      for(var i in currentCampaigns) {
+        if(Object.keys(currentCampaigns[i])[0] === snapshot.key) {
+          currentCampaigns.splice(i, 1);
+        }
+      }
+      this.setState({
+        campaigns: currentCampaigns
+      })
+    }).bind(this)
 
     let monthlyBudgetRef = fire.database().ref('monthlyBudget');
     monthlyBudgetRef.on('value', snapshot => {
@@ -132,7 +139,9 @@ class App extends Component {
   removeCampaign(event) {
     event.preventDefault();
     const itemID = event.target.id.replace('-delete', '');
-    fire.database().ref('campaigns').child(itemID).remove();
+    const campaignsRef = fire.database().ref('campaigns');
+    const childRef = campaignsRef.child(itemID);
+    childRef.remove();
   }
 
   calculateSuggestedBudgets(event){
