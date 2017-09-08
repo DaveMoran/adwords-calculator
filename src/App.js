@@ -141,7 +141,12 @@ class App extends Component {
     const itemID = event.target.id.replace('-delete', '');
     const campaignsRef = fire.database().ref('campaigns');
     const childRef = campaignsRef.child(itemID);
-    childRef.remove();
+    const currentCampaigns = this.state.campaigns;
+    if(currentCampaigns.length === 1) {
+      campaignsRef.set("");
+    } else {
+      childRef.remove();
+    }
   }
 
   calculateSuggestedBudgets(event){
