@@ -100,11 +100,19 @@ class App extends Component {
   }
   
   onBudgetChange(event) {
-    fire.database().ref('monthlyBudget').set(parseInt(event.target.value, 10));
+    if(event.target.value === '') {
+      fire.database().ref('monthlyBudget').set(parseInt(0, 10));
+    } else {
+      fire.database().ref('monthlyBudget').set(parseInt(event.target.value, 10));
+    }
   }
   
   onSpendChange(event) {
-    fire.database().ref('currentSpend').set(parseInt(event.target.value, 10));
+    if(event.target.value === '') {
+      fire.database().ref('currentSpend').set(parseInt(0, 10));
+    } else {
+      fire.database().ref('currentSpend').set(parseInt(event.target.value, 10));
+    }
   }
 
   onItemNameChange(event) {
@@ -116,7 +124,11 @@ class App extends Component {
   onItemBudgetChange(event) {
     const itemID = event.target.id.replace('-budget', '');
     let campaignRef = fire.database().ref('campaigns').child(itemID);
-    campaignRef.child('budget').set(parseInt(event.target.value, 10));
+    if(event.target.value === '') {
+      campaignRef.child('budget').set(parseInt(0, 10));
+    } else {
+      campaignRef.child('budget').set(parseInt(event.target.value, 10));
+    }
   }
 
   calculateRemainingBudget(event) {
