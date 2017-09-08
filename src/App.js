@@ -141,9 +141,8 @@ class App extends Component {
     const itemID = event.target.id.replace('-delete', '');
     const campaignsRef = fire.database().ref('campaigns');
     const childRef = campaignsRef.child(itemID);
-    const currentCampaigns = this.state.campaigns;
-    if(currentCampaigns.length === 1) {
-      campaignsRef.set("");
+    if(this.state.campaigns.length === 1) {
+      campaignsRef.set('')
     } else {
       childRef.remove();
     }
@@ -281,7 +280,7 @@ class Campaigns extends Component {
                   id={Object.keys(item)[0] + '-label'}
                   className="form-control"
                   type="text"
-                  value={item.name}
+                  value={item[ Object.keys(item)[0] ].name}
                   onChange={onItemNameChange}
                 />
               </div>
@@ -293,7 +292,7 @@ class Campaigns extends Component {
                   id={Object.keys(item)[0] + '-budget'}
                   className="form-control"
                   type="number"
-                  value={item.budget}
+                  value={item[ Object.keys(item)[0] ].budget}
                   onChange={onItemBudgetChange}
                 />
               </div>
@@ -340,7 +339,7 @@ class Suggestions extends Component {
         <p>You currently have ${remainingBudget} left to spend in the next {daysLeftInMonth} day(s).</p>
         <ul>
         { campaigns && campaigns.map( item =>
-          <li key={Object.keys(item)[0]}>{item.name}: ${item.suggestedBudget}</li>  
+          <li key={Object.keys(item)[0]}>{item[ Object.keys(item)[0] ].name}: ${item[ Object.keys(item)[0] ].suggestedBudget}</li>  
         )}
         </ul>
       </div>
