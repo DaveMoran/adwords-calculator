@@ -57,8 +57,9 @@ class App extends Component {
       for(var i in currentCampaigns) {
         let campaignKey = Object.keys(currentCampaigns[i])[0];
         if(campaignKey === snapshot.key) {
-          currentCampaigns[i][campaignKey].name = snapshot.val().name,
-          currentCampaigns[i][campaignKey].budget = snapshot.val().budget
+          currentCampaigns[i][campaignKey].name = snapshot.val().name;
+          currentCampaigns[i][campaignKey].budget = snapshot.val().budget;
+          currentCampaigns[i][campaignKey].suggestedBudget = snapshot.val().suggestedBudget;
         }
       }
 
@@ -151,16 +152,16 @@ class App extends Component {
 
   calculateSuggestedBudgets(event){
     event.preventDefault();
-
     const allCampaigns = this.state.campaigns;
+    let campaignsRef = fire.database().ref('campaigns');
+    
     for(var i in allCampaigns) {
-      let budgetRatio = (allCampaigns[i].budget * 30.4 / this.state.monthlyBudget);
-      allCampaigns[i].suggestedBudget = Math.round(100 * (this.state.remainingBudget * budgetRatio / this.state.daysLeftInMonth)) / 100; 
+      const campaignKey = Object.keys(allCampaigns[i])[0];
+      const budgetRatio = (allCampaigns[i][campaignKey].budget * 30.4 / this.state.monthlyBudget);
+      const suggestedBudget = Math.round(100 * (this.state.remainingBudget * budgetRatio / this.state.daysLeftInMonth)) / 100; 
+      allCampaigns[i][campaignKey].suggestedBudget = suggestedBudget;
+      campaignsRef.child(campaignKey).child('suggestedBudget').set(suggestedBudget);
     }
-
-    this.setState({
-      campaigns: allCampaigns
-    })
   }
 
   render() {
