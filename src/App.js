@@ -37,6 +37,10 @@ class App extends Component {
           suggestedBudget: snapshot.val().suggestedBudget
         }
       }
+
+    campaignsRef.on('child_removed', snapshot => {
+      console.log(snapshot.val());
+    }).bind(this)
       
       this.setState({ campaigns: [campaign].concat(this.state.campaigns) });
     }).bind(this);
@@ -128,15 +132,7 @@ class App extends Component {
   removeCampaign(event) {
     event.preventDefault();
     const itemID = event.target.id.replace('-delete', '');
-    const currentCampaigns = this.state.campaigns;
-    for(var i in currentCampaigns) {
-      if(currentCampaigns[i].id == itemID) {
-        currentCampaigns.splice(i, 1);
-      }
-    }
-
-    fire.database().ref('campaigns').remove()
-
+    fire.database().ref('campaigns').child(itemID).remove();
   }
 
   calculateSuggestedBudgets(event){
