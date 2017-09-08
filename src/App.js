@@ -93,8 +93,8 @@ class App extends Component {
     const itemID = event.target.id.replace('-label', '');
     const currentCampaigns = this.state.campaigns;
     for (var i in currentCampaigns) {
-      if(currentCampaigns[i].id == itemID) {
-        currentCampaigns[i].name = event.target.value
+      if(Object.keys(currentCampaigns[i])[0] === itemID) {
+        currentCampaigns[0][Object.keys(currentCampaigns[i])[0]].name = event.target.value;
       }
     }
 
