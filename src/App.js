@@ -103,7 +103,7 @@ class App extends Component {
     if(event.target.value === '') {
       fire.database().ref('monthlyBudget').set(parseInt(0, 10));
     } else {
-      fire.database().ref('monthlyBudget').set(parseInt(event.target.value, 10));
+      fire.database().ref('monthlyBudget').set(event.target.value);
     }
   }
   
@@ -111,7 +111,7 @@ class App extends Component {
     if(event.target.value === '') {
       fire.database().ref('currentSpend').set(parseInt(0, 10));
     } else {
-      fire.database().ref('currentSpend').set(parseInt(event.target.value, 10));
+      fire.database().ref('currentSpend').set(event.target.value);
     }
   }
 
@@ -127,7 +127,7 @@ class App extends Component {
     if(event.target.value === '') {
       campaignRef.child('budget').set(parseInt(0, 10));
     } else {
-      campaignRef.child('budget').set(parseInt(event.target.value, 10));
+      campaignRef.child('budget').set(event.target.value);
     }
   }
 
@@ -136,7 +136,7 @@ class App extends Component {
     let monthlyBudget = this.state.monthlyBudget;
     let currentSpend = this.state.currentSpend;
     let remainingBudget = monthlyBudget - currentSpend;
-    fire.database().ref('remainingBudget').set(parseInt(remainingBudget, 10));
+    fire.database().ref('remainingBudget').set(remainingBudget);
   }
 
   addNewCampaign(event){
